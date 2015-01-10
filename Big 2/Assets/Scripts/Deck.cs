@@ -8,7 +8,7 @@ public class Deck : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		players = GameObject.Find("GM").GetComponent<_GM>().players;
+		players = GameObject.Find("GM").GetComponent<_GameMaster>().players;
 		DistributeCards();
 	}
 	

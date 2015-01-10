@@ -51,8 +51,10 @@
      <Compile Include="Assets\Scripts\Deck.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerCard.cs" />
+     <Compile Include="Assets\Scripts\PreparationCard.cs" />
      <Compile Include="Assets\Scripts\PreparationCards.cs" />
-     <Compile Include="Assets\Scripts\_GM.cs" />
+     <Compile Include="Assets\Scripts\_GameMaster.cs" />
+     <Compile Include="Assets\Scripts\_GameUtil.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>
