@@ -13,17 +13,21 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		heldCards = this.gameObject.GetComponent<CardHoldings>().heldCards;
-		DisplayPlayerCard();
+		DisplayPlayerCards();
 	}
 
 	// Displays all held cards by the player to the screen
-	void DisplayPlayerCard()
+	void DisplayPlayerCards()
 	{
 		int i = 0;
-		foreach(GameObject card in heldCards)
+		foreach(GameObject heldCard in heldCards)
 		{
-			playerCards[i].GetComponent<PlayerCard>().cardSprite = card.GetComponent<SpriteRenderer>().sprite;
+			playerCards[i].name = heldCard.name;
+			playerCards[i].GetComponent<PlayerCard>().cardSprite = heldCard.GetComponent<SpriteRenderer>().sprite;
 			i++;
 		}
 	}
+
+
+	
 }

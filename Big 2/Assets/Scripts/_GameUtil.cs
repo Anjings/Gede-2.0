@@ -10,8 +10,9 @@ public class _GameUtil : MonoBehaviour {
 		{
 			foreach(GameObject card in player.GetComponent<CardHoldings>().heldCards)
 			{
+				Sprite cardSprite = card.GetComponent<SpriteRenderer>().sprite;
 				// 3 diamond -> level = 1 (diamond), value = "3"
-				if(GetCardLevel(card) == 1 && GetCardValue(card) == "3")
+				if(GetTypeLevel(cardSprite) == 1 && GetCardValue(cardSprite) == "3")
 				{
 					return player.name;
 				}
@@ -20,11 +21,11 @@ public class _GameUtil : MonoBehaviour {
 		return "";
 	}
 	
-	public int GetCardLevel(GameObject card)
+	public int GetTypeLevel(Sprite cardSprite)
 	{
 		int level = 0;
 		// ex: spade_ace -> type = spade
-		string[] splitString = card.name.Split('_');
+		string[] splitString = cardSprite.name.Split('_');
 		string type = splitString[0];
 		
 		// spade = level 4 (the strongest type), diamond = level 1 (the weakest type)
@@ -46,18 +47,18 @@ public class _GameUtil : MonoBehaviour {
 		return level;
 	}
 
-	string GetCardValue(GameObject card)
+	string GetCardValue(Sprite cardSprite)
 	{
 		// ex: spade_ace -> value = ace
-		string[] splitString = card.name.Split('_');
+		string[] splitString = cardSprite.name.Split('_');
 		string value = splitString[1];
 		return value;
 	}
 
 	// Gets the value power level of the card value(needed to determine which is higher or lower)
-	public int GetValueLevel(GameObject card)
+	public int GetValueLevel(Sprite cardSprite)
 	{
-		string value = GetCardValue(card);
+		string value = GetCardValue(cardSprite);
 		int level = 0;
 		switch(value)
 		{
@@ -102,5 +103,34 @@ public class _GameUtil : MonoBehaviour {
 			break;
 		}
 		return level;
+	}
+
+	public bool IsOnePair(List<GameObject> cards)
+	{
+		return true;
+	}
+	public bool IsThreeOfAKind(List<GameObject> cards)
+	{
+		return true;
+	}
+	public bool IsStraight(List<GameObject> cards)
+	{
+		return true;
+	}
+	public bool IsFlush(List<GameObject> cards)
+	{
+		return true;
+	}
+	public bool IsFullHouse(List<GameObject> cards)
+	{
+		return true;
+	}
+	public bool IsFourOfAKind(List<GameObject> cards)
+	{
+		return true;
+	}
+	public bool IsStraightFlush(List<GameObject> cards)
+	{
+		return true;
 	}
 }

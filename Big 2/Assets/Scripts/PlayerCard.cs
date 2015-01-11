@@ -4,14 +4,16 @@ using System.Collections.Generic;
 
 public class PlayerCard : MonoBehaviour {
 	Vector3 originalPosition;
-	string originalName;
+	public string originalName;
 	public Sprite cardSprite;
-	public Sprite currentSprite;
-	bool isClicked;
-	public GameObject preparationPlace;
+	Sprite currentSprite;
+	public bool isClicked;
+	public GameObject preparationCardsObject;
+	PreparationCards preparationCards;
 
 	// Use this for initialization
 	void Start () {
+		preparationCards = preparationCardsObject.GetComponent<PreparationCards>();
 		originalPosition = this.transform.position;
 		originalName = this.gameObject.name;
 		isClicked = false;
@@ -22,14 +24,13 @@ public class PlayerCard : MonoBehaviour {
 		if(!isClicked)
 		{
 			currentSprite = cardSprite;
+			this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+		}
+		else
+		{
+			this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
 		}
 		this.gameObject.GetComponent<SpriteRenderer>().sprite = currentSprite; // This object's sprite is controlled by the currentSprite
-
-		// Change gameobject name into the card name it possesses 
-		if(currentSprite != null)
-		{
-			this.gameObject.name = currentSprite.name;
-		}
 	}
 
 	// Moves card up when mouse hovers above the card
@@ -47,7 +48,7 @@ public class PlayerCard : MonoBehaviour {
 	// Moves card into preparation card list when clicked
 	void OnMouseDown()
 	{
-		if(Input.GetMouseButtonDown(0) && currentSprite != null && !IsPrepareListFull())
+		if(Input.GetMouseButtonDown(0) && currentSprite != null && preparationCards.preparationList.Count<5)
 		{
 			isClicked = true;
 			PrepareCard();
@@ -58,35 +59,7 @@ public class PlayerCard : MonoBehaviour {
 	// Prepare the card to be played
 	void PrepareCard()
 	{
-		int i = 0;
-		foreach(Sprite sprite in preparationPlace.GetComponent<PreparationCards>().preparationList)
-		{
-			if(sprite == null)
-			{
-				// Fills the sprite of the first empty slot in the list
-				preparationPlace.GetComponent<PreparationCards>().preparationList[i] = currentSprite;
-				break;
-			}
-			i++;
-		}
-	}
-
-	// Checks if the preparation list is full (max 5 cards)
-	bool IsPrepareListFull()
-	{
-		int nullSprite = 0; // The indicator of empty slot in the list
-
-		for(int i=0; i < preparationPlace.GetComponent<PreparationCards>().preparationList.Count; i++)
-		{
-			if(preparationPlace.GetComponent<PreparationCards>().preparationList[i] == null)
-			{
-				nullSprite += 1;
-			}
-		}
-		if(nullSprite != 0)
-		{
-			return false;
-		}
-		return true;
+		// Add the card sprite to the preparation list
+		preparationCards.preparationList.Add(currentSprite);
 	}
 }
