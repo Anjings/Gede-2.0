@@ -17,7 +17,7 @@ public class Deck : MonoBehaviour {
 
 	}
 
-	public void DistributeCards()
+	void DistributeCards()
 	{
 		foreach(GameObject card in cards)
 		{

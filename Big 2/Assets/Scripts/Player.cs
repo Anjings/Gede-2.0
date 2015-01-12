@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour {
 	List<GameObject> heldCards;
 	public List<GameObject> playerCards;
+	public _GameUtil util;
 	// Use this for initialization
 	void Start () {
 
@@ -23,7 +24,7 @@ public class Player : MonoBehaviour {
 		foreach(GameObject heldCard in heldCards)
 		{
 			playerCards[i].name = heldCard.name;
-			playerCards[i].GetComponent<PlayerCard>().cardSprite = heldCard.GetComponent<SpriteRenderer>().sprite;
+			playerCards[i].GetComponent<PlayerCard>().cardSprite = util.GetSprite(heldCard);
 			i++;
 		}
 	}

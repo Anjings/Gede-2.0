@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PreparationCards : MonoBehaviour {
-	public GameObject GM;
-	_GameUtil util;
+	public _GameUtil util;
+	public _GameMaster master;
+	public ActiveCards activeCards;
 	public List<Sprite> preparationList; // list of the prepared cards
-	public List<GameObject> preparationCards; // list of the position of the prepared cards
+	public List<GameObject> preparationCards; // list of the position of the prepared cards in the preparation list
 	public GameObject player;
-	public List<GameObject> activeCards;
 
 	// Use this for initialization
 	void Start () {
-		util = GM.GetComponent<_GameUtil>();
+
 	}
 	
 	// Update is called once per frame
@@ -68,12 +68,56 @@ public class PreparationCards : MonoBehaviour {
 		}
 	}
 
-	public void PlayCard()
+	public void SubmitCard()
 	{
+		// Counts the number of cards
+		int sumCards = 0;
+		foreach(GameObject preparationCard in preparationCards)
+		{
+			if(util.GetSprite(preparationCard) != null)
+			{
+				sumCards++;
+			}
+		}
+
+		// If the number of the cards played are correct (1,2,3,5)
+		if(sumCards > 0 && sumCards != 4)
+		{
+			// Checks the validity of the card combination
+			if(activeCards.IsValid(sumCards, preparationCards))
+			{
+				if(master.GetTurn() == 1)
+				{
+					// At round 1 stage 1, player must play 3 of diamond
+					if(master.GetRound() == 1)
+					{
+						master.SetPlayingCard(sumCards);
+						PlayCard(sumCards);
+					}
+					else
+					{
+						master.SetPlayingCard(sumCards);
+						PlayCard(sumCards);
+					}
+				}
+				else
+				{
+					if(master.GetPlayingCard() == sumCards && activeCards.IsLower(sumCards, preparationCards))
+					{
+						PlayCard(sumCards);
+					}
+				}
+			}
+		}
+	}
+
+	void PlayCard(int sumCards)
+	{
+		master.PlayTurn();
 		// Removes the cards from hand
 		foreach(GameObject playerCard in player.GetComponent<Player>().playerCards)
 		{
-			if(playerCard.GetComponent<SpriteRenderer>().sprite == null)
+			if(util.GetSprite(playerCard)== null)
 			{
 				foreach(GameObject heldCard in player.GetComponent<CardHoldings>().heldCards)
 				{
@@ -87,55 +131,18 @@ public class PreparationCards : MonoBehaviour {
 		}
 		// To be redisplayed (updated), removes the display of empty card(s)
 		ClearPlayerCards();
-
-		// Counts the number of cards
-		int sumCards = 0;
-		foreach(GameObject preparationCard in preparationCards)
-		{
-			if(preparationCard.GetComponent<SpriteRenderer>().sprite != null)
-			{
-				sumCards++;
-			}
-		}
-
+		
 		// Places cards from preparation hand to active hand
-		PlaceCards(sumCards);
-
+		activeCards.PlaceCards(sumCards, master.GetPlayingCard(), preparationCards);
+		
 		// Clears the preparation list
 		preparationList.Clear();
-
+		
 		// Clears all display of preparation cards display to be redisplayed 
 		for(int j = 0; j < preparationCards.Count;j++)
 		{
 			preparationCards[j].GetComponent<SpriteRenderer>().sprite = null;
 		} 
-	}
-
-	void PlaceCards(int sumCards)
-	{
-		if(sumCards == 1)
-		{
-			activeCards[2].GetComponent<SpriteRenderer>().sprite = preparationCards[0].GetComponent<SpriteRenderer>().sprite;
-		}
-		else if(sumCards == 2)
-		{
-			activeCards[5].GetComponent<SpriteRenderer>().sprite = preparationCards[0].GetComponent<SpriteRenderer>().sprite;
-			activeCards[6].GetComponent<SpriteRenderer>().sprite = preparationCards[1].GetComponent<SpriteRenderer>().sprite;
-		}
-		else if(sumCards == 3)
-		{
-			for(int i = 0; i<3;i++)
-			{
-				activeCards[i+1].GetComponent<SpriteRenderer>().sprite = preparationCards[i].GetComponent<SpriteRenderer>().sprite;
-			}
-		}
-		else if(sumCards == 5)
-		{
-			for(int i = 0; i<5;i++)
-			{
-				activeCards[i].GetComponent<SpriteRenderer>().sprite = preparationCards[i].GetComponent<SpriteRenderer>().sprite;
-			}
-		}
 	}
 
 	void ClearPlayerCards()
