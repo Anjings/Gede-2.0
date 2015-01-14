@@ -11,6 +11,7 @@ public class ActiveCards : MonoBehaviour {
 	public _GameUtil util;
 	public _GameMaster master;
 	public Text cardStatus;
+	int playingCard = 0; // Number of cards played (1,2,3,5)
 	// Use this for initialization
 	void Start () {
 	
@@ -21,7 +22,19 @@ public class ActiveCards : MonoBehaviour {
 		if(master.GetTurn() == 1)
 		{
 			ClearAll();
+			cardStatus.text = "";
+			playingCard = 0;
 		}
+	}
+
+	public void SetPlayingCard(int sum)
+	{
+		playingCard = sum;
+	}
+	
+	public int GetPlayingCard()
+	{
+		return playingCard;
 	}
 
 	bool CheckCombination(int sumCards, List<GameObject> cards)
@@ -80,7 +93,7 @@ public class ActiveCards : MonoBehaviour {
 		return false;
 	}
 
-	public void PlaceCards(int sumCards, int playingCard, List<GameObject> cards)
+	public void PlaceCards(int sumCards, List<GameObject> cards)
 	{
 		ClearAll();
 		if(sumCards == 1 && playingCard == 1)
@@ -200,10 +213,10 @@ public class ActiveCards : MonoBehaviour {
 			// If both values are the same...
 			else if(util.GetValueLevel(util.GetSprite(preparedCards[0])) == util.GetValueLevel(util.GetSprite(activeCard_for_1)))
 			{
-				// Checks for the type
+				// Checks for the suit
 				// If it's higher...
 				// Ex: card played = spade, active card = diamond -> spade is higher than diamond
-				if(util.GetTypeLevel(util.GetSprite(preparedCards[0])) > util.GetTypeLevel(util.GetSprite(activeCard_for_1)))
+				if(util.GetSuitLevel(util.GetSprite(preparedCards[0])) > util.GetSuitLevel(util.GetSprite(activeCard_for_1)))
 				{
 					return true;
 				}
@@ -222,12 +235,12 @@ public class ActiveCards : MonoBehaviour {
 				return true;
 			}
 			// If both values are the same...
-			else if(util.GetValueLevel(util.GetSprite(preparedCards[1])) > util.GetValueLevel(util.GetSprite(activeCard_for_2[1])))
+			else if(util.GetValueLevel(util.GetSprite(preparedCards[1])) == util.GetValueLevel(util.GetSprite(activeCard_for_2[1])))
 			{
-				// Checks for the type
+				// Checks for the suit
 				// If it's higher...
 				// Ex: card played = spade, active card = diamond -> spade is higher than diamond
-				if(util.GetTypeLevel(util.GetSprite(preparedCards[1])) > util.GetTypeLevel(util.GetSprite(activeCard_for_2[1])))
+				if(util.GetSuitLevel(util.GetSprite(preparedCards[1])) > util.GetSuitLevel(util.GetSprite(activeCard_for_2[1])))
 				{
 					return true;
 				}
@@ -246,12 +259,12 @@ public class ActiveCards : MonoBehaviour {
 				return true;
 			}
 			// If both values are the same...
-			else if(util.GetValueLevel(util.GetSprite(preparedCards[2])) > util.GetValueLevel(util.GetSprite(activeCard_for_3[2])))
+			else if(util.GetValueLevel(util.GetSprite(preparedCards[2])) == util.GetValueLevel(util.GetSprite(activeCard_for_3[2])))
 			{
-				// Checks for the type
+				// Checks for the suit
 				// If it's higher...
 				// Ex: card played = spade, active card = diamond -> spade is higher than diamond
-				if(util.GetTypeLevel(util.GetSprite(preparedCards[2])) > util.GetTypeLevel(util.GetSprite(activeCard_for_3[2])))
+				if(util.GetSuitLevel(util.GetSprite(preparedCards[2])) > util.GetSuitLevel(util.GetSprite(activeCard_for_3[2])))
 				{
 					return true;
 				}
@@ -284,12 +297,12 @@ public class ActiveCards : MonoBehaviour {
 						return true;
 					}
 					// If both values are the same...
-					else if(util.GetValueLevel(util.GetSprite(preparedCards[4])) > util.GetValueLevel(util.GetSprite(activeCard_for_5[4])))
+					else if(util.GetValueLevel(util.GetSprite(preparedCards[4])) == util.GetValueLevel(util.GetSprite(activeCard_for_5[4])))
 					{
-						// Checks for the type
+						// Checks for the suit
 						// If it's higher...
 						// Ex: card played = spade, active card = diamond -> spade is higher than diamond
-						if(util.GetTypeLevel(util.GetSprite(preparedCards[4])) > util.GetTypeLevel(util.GetSprite(activeCard_for_5[4])))
+						if(util.GetSuitLevel(util.GetSprite(preparedCards[4])) > util.GetSuitLevel(util.GetSprite(activeCard_for_5[4])))
 						{
 							return true;
 						}
@@ -307,12 +320,12 @@ public class ActiveCards : MonoBehaviour {
 						return true;
 					}
 					// If both values are the same...
-					else if(util.GetValueLevel(util.GetSprite(preparedCards[2])) > util.GetValueLevel(util.GetSprite(activeCard_for_5[2])))
+					else if(util.GetValueLevel(util.GetSprite(preparedCards[2])) == util.GetValueLevel(util.GetSprite(activeCard_for_5[2])))
 					{
-						// Checks for the type
+						// Checks for the suit
 						// If it's higher...
 						// Ex: card played = spade, active card = diamond -> spade is higher than diamond
-						if(util.GetTypeLevel(util.GetSprite(preparedCards[2])) > util.GetTypeLevel(util.GetSprite(activeCard_for_5[2])))
+						if(util.GetSuitLevel(util.GetSprite(preparedCards[2])) > util.GetSuitLevel(util.GetSprite(activeCard_for_5[2])))
 						{
 							return true;
 						}

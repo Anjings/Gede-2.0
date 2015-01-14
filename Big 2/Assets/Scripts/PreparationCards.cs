@@ -30,13 +30,13 @@ public class PreparationCards : MonoBehaviour {
 		} 
 	}
 
-	// Sorts the preparation list based on card value and card type
+	// Sorts the preparation list based on card value and card suit
 	int CardComparer(Sprite a, Sprite b)
 	{
 		int valueLevel_a = util.GetValueLevel(a);
 		int valueLevel_b = util.GetValueLevel(b);
-		int typeLevel_a = util.GetTypeLevel(a);
-		int typeLevel_b = util.GetTypeLevel(b);
+		int suitLevel_a = util.GetSuitLevel(a);
+		int suitLevel_b = util.GetSuitLevel(b);
 
 		// Checks for sorting position
 		// If value level a is lesser than value level b
@@ -52,14 +52,14 @@ public class PreparationCards : MonoBehaviour {
 		// If value level a is the same with value level b
 		else
 		{
-			// Compares the type level
-			// If the type of a is weaker than b
-			if(typeLevel_a < typeLevel_b)
+			// Compares the suit level
+			// If the suit of a is weaker than b
+			if(suitLevel_a < suitLevel_b)
 			{
 				return -1;
 			}
-			// If the type of a is stronger than b
-			// Type of a can't be the same with type of b
+			// If the suit of a is stronger than b
+			// suit of a can't be the same with suit of b
 			// As there is only a copy for each card
 			else
 			{
@@ -91,18 +91,21 @@ public class PreparationCards : MonoBehaviour {
 					// At round 1 stage 1, player must play 3 of diamond
 					if(master.GetRound() == 1)
 					{
-						master.SetPlayingCard(sumCards);
-						PlayCard(sumCards);
+						if(preparationCards[0].name == "diamond_3")
+						{
+							activeCards.SetPlayingCard(sumCards);
+							PlayCard(sumCards);
+						}
 					}
 					else
 					{
-						master.SetPlayingCard(sumCards);
+						activeCards.SetPlayingCard(sumCards);
 						PlayCard(sumCards);
 					}
 				}
 				else
 				{
-					if(master.GetPlayingCard() == sumCards && activeCards.IsLower(sumCards, preparationCards))
+					if(activeCards.GetPlayingCard() == sumCards && activeCards.IsLower(sumCards, preparationCards))
 					{
 						PlayCard(sumCards);
 					}
@@ -133,7 +136,7 @@ public class PreparationCards : MonoBehaviour {
 		ClearPlayerCards();
 		
 		// Places cards from preparation hand to active hand
-		activeCards.PlaceCards(sumCards, master.GetPlayingCard(), preparationCards);
+		activeCards.PlaceCards(sumCards, preparationCards);
 		
 		// Clears the preparation list
 		preparationList.Clear();

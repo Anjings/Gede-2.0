@@ -6,9 +6,9 @@ using System.Collections.Generic;
 public class _GameMaster : MonoBehaviour {
 	public List<GameObject> players; // List of all players
 	_GameUtil util;
-	int round = 0; // No. of round in a game (round = 0 -> new game)
-	int turn = 0; // No. of turn in a round 
-	int playingCard = 0; // Number of cards played (1,2,3,5)
+	public int round = 0; // No. of round in a game (round = 0 -> new game)
+	public int turn = 0; // No. of turn in a round 
+
 	public string currentTurn; // Determines whose turn it is
 	public Text turnStatus;
 	int passCount = 0;
@@ -92,23 +92,14 @@ public class _GameMaster : MonoBehaviour {
 			{
 				Sprite cardSprite = card.GetComponent<SpriteRenderer>().sprite;
 				// 3 diamond -> level = 1 (diamond), value = "3"
-				if(util.GetTypeLevel(cardSprite) == 1 && util.GetValueLevel(cardSprite) == 3)
+				if(util.GetSuitLevel(cardSprite) == 1 && util.GetValueLevel(cardSprite) == 3)
 				{
 					currentTurn = player.name;
 				}
 			}
 		}
 	}
-
-	public void SetPlayingCard(int sum)
-	{
-		playingCard = sum;
-	}
-
-	public int GetPlayingCard()
-	{
-		return playingCard;
-	}
+	
 
 	public int GetTurn()
 	{

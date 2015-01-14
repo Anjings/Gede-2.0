@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 public class _GameUtil : MonoBehaviour {
 
-	public int GetTypeLevel(Sprite cardSprite)
+	public int GetSuitLevel(Sprite cardSprite)
 	{
 		int level = 0;
-		// ex: spade_ace -> type = spade
+		// ex: spade_ace -> suit = spade
 		string[] splitString = cardSprite.name.Split('_');
-		string type = splitString[0];
+		string suit = splitString[0];
 		
-		// spade = level 4 (the strongest type), diamond = level 1 (the weakest type)
-		switch(type)
+		// spade = level 4 (the strongest suit), diamond = level 1 (the weakest suit)
+		switch(suit)
 		{
 		case "spade":
 			level = 4;
@@ -161,12 +161,12 @@ public class _GameUtil : MonoBehaviour {
 		// Checks the total of the cards played (must be 5)
 		if(sumCards == 5)
 		{
-			int typeLevel = GetTypeLevel(GetSprite(cards[0]));
-			// Checks whether all cards have the same type
+			int suitLevel = GetSuitLevel(GetSprite(cards[0]));
+			// Checks whether all cards have the same suit
 			for(int i = 0; i < 5; i++)
 			{
-				// If the type is different...
-				if(GetTypeLevel(GetSprite(cards[i])) != typeLevel)
+				// If the suit is different...
+				if(GetSuitLevel(GetSprite(cards[i])) != suitLevel)
 				{
 					return false;
 				}
